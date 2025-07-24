@@ -36,17 +36,18 @@
         body { font-family: 'Inter', sans-serif; background-color: var(--primary-bg); color: var(--text-primary); line-height: 1.7; overflow-x: hidden; }
         .container { width: 90%; max-width: 1200px; margin: auto; }
         h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: 0.5px; color: var(--text-primary); text-align: center; }
-        h1 { font-size: clamp(2.5rem, 5vw, 4rem); text-shadow: 0 0 20px var(--accent-glow); }
+        
+        /* FIX: More aggressive responsive font size for headline to prevent overflow on mobile */
+        h1 { font-size: clamp(1.6rem, 7.5vw, 4rem); text-shadow: 0 0 20px var(--accent-glow); }
+
         h2 { font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 1.5rem; }
         h3 { font-size: 1.5rem; color: var(--accent-primary); margin-bottom: 1rem; text-align: left;}
         p { color: var(--text-secondary); margin-bottom: 1.5rem; max-width: 70ch; margin-left: auto; margin-right: auto; text-align: center;}
         section { padding: 5rem 0; position: relative; overflow: hidden; }
         
-        /* GENERAL FADE-IN FOR SCROLLING SECTIONS */
         .fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-        /* HEADER & NAVIGATION */
         header { position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; background: transparent; transition: background-color 0.4s ease, backdrop-filter 0.4s ease; }
         header.scrolled { background-color: var(--glass-bg); backdrop-filter: blur(10px); border-bottom: 1px solid var(--glass-border); }
         nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; }
@@ -58,40 +59,30 @@
         .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
         .hamburger { display: none; }
         
-        /* HERO SECTION & TECHY ANIMATIONS */
         .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 5%;}
         #particle-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; cursor: crosshair;}
-        
-        /* FIX: A dedicated container to keep content centered and ordered vertically */
         .hero-content { display: flex; flex-direction: column; align-items: center; }
 
-        .hero h1 { overflow: hidden; white-space: nowrap; margin: 0 auto; width: 0; /* Starts with 0 width */ }
+        .hero h1 { overflow: hidden; white-space: nowrap; margin: 0 auto; width: 0; }
         .hero h1.typing-effect {
-            border-right: .15em solid var(--accent-secondary); /* Blinking cursor */
-            animation: typing 3s steps(38, end) forwards, /* FIX: Use 'forwards' to keep the final state */
+            border-right: .15em solid var(--accent-secondary);
+            animation: typing 3s steps(38, end) forwards,
                        blink-caret .75s step-end infinite;
         }
         
         @keyframes typing { from { width: 0 } to { width: 100% } }
         @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-secondary); } }
 
-        /* Staggered fade-up animation for tagline and buttons */
         .hero .animated-item { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-        .hero .tagline { transition-delay: 3.1s; /* Timed to start after typing */ margin-top: 1.5rem;}
+        .hero .tagline { transition-delay: 3.1s; margin-top: 1.5rem;}
         .hero .hero-buttons { transition-delay: 3.3s; margin-top: 2rem; }
 
-        /* FIX: Better Button Styling */
-        .btn {
-            display: inline-block; padding: 0.9rem 2.2rem; border-radius: 8px; text-decoration: none; font-weight: 600; 
-            transition: all 0.3s ease; border: 2px solid transparent; font-family: 'Space Grotesk', sans-serif;
-            cursor: pointer;
-        }
+        .btn { display: inline-block; padding: 0.9rem 2.2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; border: 2px solid transparent; font-family: 'Space Grotesk', sans-serif; cursor: pointer; }
         .btn-primary { background-color: var(--accent-primary); color: var(--text-primary); margin: 0 0.5rem; }
         .btn-primary:hover { background-color: transparent; border-color: var(--accent-primary); box-shadow: 0 0 20px var(--accent-glow); }
         .btn-secondary { border-color: var(--text-secondary); color: var(--text-primary); margin: 0 0.5rem; }
         .btn-secondary:hover { border-color: var(--accent-secondary); color: var(--accent-secondary); }
 
-        /* The rest of the site styles... */
         .divisions-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 2rem; margin-top: 4rem; }
         .division-card { background: var(--glass-bg); backdrop-filter: blur(5px); padding: 2.5rem 2rem; border-radius: 12px; border: 1px solid var(--glass-border); transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; }
         .division-card:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 0 20px var(--accent-glow); }
@@ -120,7 +111,6 @@
             .split-section { grid-template-columns: repeat(2, 1fr); }
         }
         @media(max-width: 768px) {
-            .hero h1 { font-size: 1.8rem; letter-spacing: .05em;}
             .nav-links { position: fixed; left: -100%; top: 0; flex-direction: column; justify-content: center; align-items: center; background: var(--primary-bg); width: 100%; height: 100vh; transition: 0.3s ease-out; gap: 2.5rem; }
             .nav-links.active { left: 0; }
             .nav-links a { font-size: 1.8rem; }
@@ -129,6 +119,11 @@
             .hamburger.active .bar:nth-child(2) { opacity: 0; }
             .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
             .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+            /* FIX: Stack buttons vertically on mobile for a better layout */
+            .hero-buttons { display: flex; flex-direction: column; align-items: center; width: 100%; }
+            .btn { width: 90%; max-width: 320px; margin-bottom: 1rem; }
+            .btn:last-child { margin-bottom: 0; }
         }
     </style>
 </head>
@@ -138,7 +133,6 @@
     <main>
         <section id="home" class="hero">
             <canvas id="particle-bg"></canvas>
-            <!-- FIX: Content wrapped in a div for better control -->
             <div class="hero-content">
                 <h1 id="hero-heading">Pioneering the Future of AI in Finance</h1>
                 <p class="tagline animated-item">We are a student-run hybrid organization—part investment fund, part consulting firm—built to give you a competitive edge in an AI-driven world.</p>
@@ -163,35 +157,23 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // HERO SECTION ON-LOAD ANIMATIONS
         const heroHeading = document.getElementById('hero-heading');
         const animatedItems = document.querySelectorAll('.hero .animated-item');
         const startHeroAnimations = () => {
             heroHeading.classList.add('typing-effect');
-            
-            // This event listener ensures the blinking cursor animation stops after typing is done
             heroHeading.addEventListener('animationend', (e) => {
-                if (e.animationName === 'typing') {
-                    heroHeading.style.borderRight = 'none'; // Makes the cursor permanently disappear
-                }
+                if (e.animationName === 'typing') { heroHeading.style.borderRight = 'none'; }
             }, { once: true });
-            
-            // Trigger the fade-in for tagline and buttons
-            animatedItems.forEach(item => {
-                item.style.opacity = '1';
-                item.style.transform = 'translateY(0)';
-            });
+            animatedItems.forEach(item => { item.style.opacity = '1'; item.style.transform = 'translateY(0)'; });
         };
-        setTimeout(startHeroAnimations, 500); // Small delay to ensure page is ready
-
-        // ---- OTHER SITE-WIDE LOGIC ----
+        setTimeout(startHeroAnimations, 500);
+        
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
         hamburger.addEventListener('click', () => { navLinks.classList.toggle('active'); hamburger.classList.toggle('active'); });
         document.querySelectorAll('.nav-links li a').forEach(link => link.addEventListener('click', () => { navLinks.classList.remove('active'); hamburger.classList.remove('active'); }));
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => (window.scrollY > 50) ? header.classList.add('scrolled') : header.classList.remove('scrolled'));
-        
         const sections = document.querySelectorAll('section[id]');
         const navLi = document.querySelectorAll('.nav-links a');
         window.addEventListener('scroll', () => {
@@ -199,11 +181,9 @@
             sections.forEach(section => { if (pageYOffset >= section.offsetTop - header.offsetHeight) { current = section.getAttribute('id'); } });
             navLi.forEach(a => { a.classList.remove('active'); if (a.getAttribute('href').substring(1) === current) { a.classList.add('active'); } });
         });
-        
         const faders = document.querySelectorAll('.fade-in');
         const appearOnScroll = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
         faders.forEach(fader => appearOnScroll.observe(fader));
-        
         const canvas = document.getElementById('particle-bg');
         if (canvas) {
             const ctx = canvas.getContext('2d');
@@ -220,7 +200,6 @@
             initParticles();
             animateParticles();
         }
-        
         function handleFormSubmit(formId, successMessage) {
             const form = document.getElementById(formId);
             if (!form) return;
