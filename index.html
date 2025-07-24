@@ -27,206 +27,100 @@
             --accent-primary: #8A2BE2; /* Violet */
             --accent-secondary: #00BFFF; /* Deep Sky Blue */
             --accent-glow: rgba(138, 43, 226, 0.5);
-            --glass-bg: rgba(26, 26, 46, 0.4); /* Glassmorphism Background */
+            --glass-bg: rgba(26, 26, 46, 0.4);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--primary-bg);
-            color: var(--text-primary);
-            line-height: 1.7;
-            overflow-x: hidden;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            color: var(--text-primary);
-            text-align: center;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--primary-bg); color: var(--text-primary); line-height: 1.7; overflow-x: hidden; }
+        .container { width: 90%; max-width: 1200px; margin: auto; }
+        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; letter-spacing: 0.5px; color: var(--text-primary); text-align: center; }
         h1 { font-size: clamp(2.5rem, 5vw, 4rem); text-shadow: 0 0 20px var(--accent-glow); }
         h2 { font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: 1.5rem; }
         h3 { font-size: 1.5rem; color: var(--accent-primary); margin-bottom: 1rem; text-align: left;}
-
         p { color: var(--text-secondary); margin-bottom: 1.5rem; max-width: 70ch; margin-left: auto; margin-right: auto; text-align: center;}
+        section { padding: 5rem 0; position: relative; overflow: hidden; }
         
-        section {
-            padding: 5rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .fade-in {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        /* GENERAL FADE-IN FOR SCROLLING SECTIONS */
+        .fade-in { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
 
         /* HEADER & NAVIGATION */
-        header {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            background: transparent;
-            transition: background-color 0.4s ease, backdrop-filter 0.4s ease;
-        }
-        
-        header.scrolled {
-            background-color: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 5%;
-        }
-
-        .nav-logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.8rem;
-            color: var(--text-primary);
-            text-decoration: none;
-            font-weight: 700;
-        }
-        
+        header { position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; background: transparent; transition: background-color 0.4s ease, backdrop-filter 0.4s ease; }
+        header.scrolled { background-color: var(--glass-bg); backdrop-filter: blur(10px); border-bottom: 1px solid var(--glass-border); }
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; }
+        .nav-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.8rem; color: var(--text-primary); text-decoration: none; font-weight: 700; }
         .nav-links { list-style: none; display: flex; gap: 2.5rem; }
         .nav-links a { color: var(--text-primary); text-decoration: none; padding: 0.5rem 0; position: relative; transition: color 0.3s; }
         .nav-links a:hover, .nav-links a.active { color: var(--accent-secondary); }
         .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--accent-secondary); transition: width 0.4s ease; }
         .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
-
         .hamburger { display: none; }
         
-        /* HERO SECTION */
+        /* HERO SECTION & TECHY ANIMATIONS */
         .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 5%;}
         #particle-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; cursor: crosshair;}
-        .hero .tagline { font-size: 1.25rem; margin-bottom: 2.5rem; color: var(--text-secondary); }
+        
+        /* FIX: A dedicated container to keep content centered and ordered vertically */
+        .hero-content { display: flex; flex-direction: column; align-items: center; }
 
-        .btn { display: inline-block; padding: 0.9rem 2.2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; border: 2px solid transparent; font-family: 'Space Grotesk', sans-serif;}
-        .btn-primary { background-color: var(--accent-primary); color: var(--text-primary); margin-right: 1rem; }
+        .hero h1 { overflow: hidden; white-space: nowrap; margin: 0 auto; width: 0; /* Starts with 0 width */ }
+        .hero h1.typing-effect {
+            border-right: .15em solid var(--accent-secondary); /* Blinking cursor */
+            animation: typing 3s steps(38, end) forwards, /* FIX: Use 'forwards' to keep the final state */
+                       blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-secondary); } }
+
+        /* Staggered fade-up animation for tagline and buttons */
+        .hero .animated-item { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .hero .tagline { transition-delay: 3.1s; /* Timed to start after typing */ margin-top: 1.5rem;}
+        .hero .hero-buttons { transition-delay: 3.3s; margin-top: 2rem; }
+
+        /* FIX: Better Button Styling */
+        .btn {
+            display: inline-block; padding: 0.9rem 2.2rem; border-radius: 8px; text-decoration: none; font-weight: 600; 
+            transition: all 0.3s ease; border: 2px solid transparent; font-family: 'Space Grotesk', sans-serif;
+            cursor: pointer;
+        }
+        .btn-primary { background-color: var(--accent-primary); color: var(--text-primary); margin: 0 0.5rem; }
         .btn-primary:hover { background-color: transparent; border-color: var(--accent-primary); box-shadow: 0 0 20px var(--accent-glow); }
-        .btn-secondary { border-color: var(--text-secondary); color: var(--text-primary); }
+        .btn-secondary { border-color: var(--text-secondary); color: var(--text-primary); margin: 0 0.5rem; }
         .btn-secondary:hover { border-color: var(--accent-secondary); color: var(--accent-secondary); }
-        
-        /* DIVISIONS SECTION - 2x2 GRID */
-        .divisions-grid {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 2rem;
-            margin-top: 4rem;
-        }
-        
-        .division-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(5px);
-            padding: 2.5rem 2rem;
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-        }
-        
-        .division-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent-primary);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 0 20px var(--accent-glow);
-        }
-        
-        .division-icon {
-            font-size: 2.5rem;
-            color: var(--accent-secondary);
-            margin-bottom: 1.5rem;
-            text-shadow: 0 0 15px rgba(0, 191, 255, 0.6);
-        }
-        
+
+        /* The rest of the site styles... */
+        .divisions-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 2rem; margin-top: 4rem; }
+        .division-card { background: var(--glass-bg); backdrop-filter: blur(5px); padding: 2.5rem 2rem; border-radius: 12px; border: 1px solid var(--glass-border); transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; }
+        .division-card:hover { transform: translateY(-10px); border-color: var(--accent-primary); box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 0 20px var(--accent-glow); }
+        .division-icon { font-size: 2.5rem; color: var(--accent-secondary); margin-bottom: 1.5rem; text-shadow: 0 0 15px rgba(0, 191, 255, 0.6); }
         .division-card p, .division-card li { text-align: left; font-size: 0.95rem; }
         .division-card ul { list-style-type: none; padding-left: 0; }
         .division-card li { position: relative; padding-left: 1.5rem; margin-bottom: 0.75rem; }
         .division-card li::before { content: '›'; color: var(--accent-secondary); position: absolute; left: 0; font-size: 1.5rem; line-height: 1; }
-        
-        /* JOIN & CONTACT SECTION - IMPROVED LAYOUT */
-        .split-section {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 3rem;
-            align-items: center;
-            margin-top: 4rem;
-        }
-
+        .split-section { display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center; margin-top: 4rem; }
         .split-section-content h3 { text-align: left; font-size: 2rem; }
         .split-section-content p { text-align: left; }
         .join-benefits { list-style: none; padding: 0; margin-top: 2rem; }
         .join-benefits li { display: flex; align-items: flex-start; margin-bottom: 1rem; }
         .join-benefits i { color: var(--accent-secondary); margin-right: 1rem; margin-top: 5px; }
-
-        .form-container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(5px);
-            padding: 2.5rem;
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
-        }
-
+        .form-container { background: var(--glass-bg); backdrop-filter: blur(5px); padding: 2.5rem; border-radius: 12px; border: 1px solid var(--glass-border); }
         .form-group { margin-bottom: 1.5rem; }
         .form-group label { display: block; margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;}
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid var(--glass-border);
-            background-color: rgba(16, 17, 26, 0.5);
-            color: var(--text-primary);
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        .form-group input:focus, .form-group textarea:focus {
-            outline: none;
-            border-color: var(--accent-secondary);
-            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
-        }
-        
-        /* FOOTER */
+        .form-group input, .form-group textarea { width: 100%; padding: 1rem; border: 1px solid var(--glass-border); background-color: rgba(16, 17, 26, 0.5); color: var(--text-primary); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; transition: border-color 0.3s, box-shadow 0.3s; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent-secondary); box-shadow: 0 0 15px rgba(0, 191, 255, 0.3); }
         footer { border-top: 1px solid var(--glass-border); padding: 3rem 5%; text-align: center;}
         .social-links a { color: var(--text-secondary); margin: 0 1rem; font-size: 1.5rem; transition: color 0.3s; }
         .social-links a:hover { color: var(--accent-secondary); }
-        .footer-content p { font-size: 0.9rem; margin-top: 1.5rem;}
         
-        /* MEDIA QUERIES for responsiveness */
         @media(min-width: 768px) {
             .divisions-grid { grid-template-columns: repeat(2, 1fr); }
             .split-section { grid-template-columns: repeat(2, 1fr); }
         }
-
         @media(max-width: 768px) {
+            .hero h1 { font-size: 1.8rem; letter-spacing: .05em;}
             .nav-links { position: fixed; left: -100%; top: 0; flex-direction: column; justify-content: center; align-items: center; background: var(--primary-bg); width: 100%; height: 100vh; transition: 0.3s ease-out; gap: 2.5rem; }
             .nav-links.active { left: 0; }
             .nav-links a { font-size: 1.8rem; }
@@ -239,296 +133,98 @@
     </style>
 </head>
 <body>
-
-    <header id="header">
-        <nav>
-            <a href="#home" class="nav-logo">Singularity</a>
-            <ul class="nav-links">
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#divisions" class="nav-link">Divisions</a></li>
-                <li><a href="#join" class="nav-link">Join Us</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-            </div>
-        </nav>
-    </header>
+    <header id="header"><nav><a href="#home" class="nav-logo">Singularity</a><ul class="nav-links"><li><a href="#about" class="nav-link">About</a></li><li><a href="#divisions" class="nav-link">Divisions</a></li><li><a href="#join" class="nav-link">Join Us</a></li><li><a href="#contact" class="nav-link">Contact</a></li></ul><div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div></nav></header>
 
     <main>
         <section id="home" class="hero">
             <canvas id="particle-bg"></canvas>
-            <h1 class="fade-in">Pioneering the Future of AI in Finance</h1>
-            <p class="tagline fade-in">We are a student-run hybrid organization—part investment fund, part consulting firm—built to give you a competitive edge in an AI-driven world.</p>
-            <div class="fade-in">
-                <a href="#divisions" class="btn btn-primary">Explore Our Divisions</a>
-                <a href="#join" class="btn btn-secondary">Join The Mission</a>
+            <!-- FIX: Content wrapped in a div for better control -->
+            <div class="hero-content">
+                <h1 id="hero-heading">Pioneering the Future of AI in Finance</h1>
+                <p class="tagline animated-item">We are a student-run hybrid organization—part investment fund, part consulting firm—built to give you a competitive edge in an AI-driven world.</p>
+                <div class="hero-buttons animated-item">
+                    <a href="#divisions" class="btn btn-primary">Explore Our Divisions</a>
+                    <a href="#join" class="btn btn-secondary">Join The Mission</a>
+                </div>
             </div>
         </section>
 
-        <section id="about" class="container">
-            <h2 class="fade-in">More Than a Club, It's a Competitive Edge</h2>
-            <p class="fade-in">
-                The world is changing. The old models are being rewritten by code, and the next generation of leaders won't just understand balance sheets—they'll command algorithms. Singularity exists to bridge the gap between academic theory and real-world application, transforming driven students into indispensable architects of the future.
-            </p>
-        </section>
+        <!-- The rest of the page remains the same... -->
+        <section id="about" class="container"><h2 class="fade-in">More Than a Club, It's a Competitive Edge</h2><p class="fade-in">The world is changing. The old models are being rewritten by code, and the next generation of leaders won't just understand balance sheets—they'll command algorithms. Singularity exists to bridge the gap between academic theory and real-world application, transforming driven students into indispensable architects of the future.</p></section>
         
-        <section id="divisions" class="container">
-            <h2 class="fade-in">The Pillars of Singularity</h2>
-            <p class="fade-in">Our "Hub-and-Spoke" structure fosters specialized expertise within a unified, collaborative ecosystem. Each division is a critical component of our mission to learn by building.</p>
-            <div class="divisions-grid">
-                <div class="division-card fade-in">
-                    <div class="division-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3>The Finance Division ("The Quants")</h3>
-                    <p><strong>Role:</strong> The club's core identity. They apply AI to real-world financial analysis and investment strategy.</p>
-                    <ul>
-                        <li>Running a simulated investment fund.</li>
-                        <li>Using AI tools to analyze companies and markets.</li>
-                        <li>Designing innovative trading strategies.</li>
-                    </ul>
-                </div>
-                <div class="division-card fade-in">
-                    <div class="division-icon"><i class="fas fa-microchip"></i></div>
-                    <h3>The AI Division ("The Engine Room")</h3>
-                    <p><strong>Role:</strong> The technical heart of the club, focused on building the AI skills needed for projects.</p>
-                    <ul>
-                       <li>Mastering no-code AI tools and prompt engineering.</li>
-                       <li>Learning Python and machine learning for finance.</li>
-                       <li>Developing bespoke AI solutions for projects.</li>
-                    </ul>
-                </div>
-                 <div class="division-card fade-in">
-                    <div class="division-icon"><i class="fas fa-users"></i></div>
-                    <h3>The Consulting Division ("The Ambassadors")</h3>
-                    <p><strong>Role:</strong> The club's bridge to the real world, applying members' skills to solve actual problems.</p>
-                    <ul>
-                        <li>Free "AI Strategy" consulting for campus clubs/startups.</li>
-                        <li>Representing Singularity in business case competitions.</li>
-                        <li>Building a portfolio of client testimonials.</li>
-                    </ul>
-                </div>
-                 <div class="division-card fade-in">
-                     <div class="division-icon"><i class="fas fa-sitemap"></i></div>
-                    <h3>The Operations Division ("The Foundation")</h3>
-                    <p><strong>Role:</strong> The essential backbone that ensures the club is run professionally and continues to grow.</p>
-                    <ul>
-                       <li>Handling all marketing, branding, and recruitment.</li>
-                       <li>Managing events, budgets, and internal affairs.</li>
-                       <li>Fostering a strong alumni network.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+        <section id="divisions" class="container"><h2 class="fade-in">The Pillars of Singularity</h2><p class="fade-in">Our "Hub-and-Spoke" structure fosters specialized expertise within a unified, collaborative ecosystem. Each division is a critical component of our mission to learn by building.</p><div class="divisions-grid"><div class="division-card fade-in"><div class="division-icon"><i class="fas fa-chart-line"></i></div><h3>The Finance Division ("The Quants")</h3><p><strong>Role:</strong> The club's core identity. They apply AI to real-world financial analysis and investment strategy.</p><ul><li>Running a simulated investment fund.</li><li>Using AI tools to analyze companies and markets.</li><li>Designing innovative trading strategies.</li></ul></div><div class="division-card fade-in"><div class="division-icon"><i class="fas fa-microchip"></i></div><h3>The AI Division ("The Engine Room")</h3><p><strong>Role:</strong> The technical heart of the club, focused on building the AI skills needed for projects.</p><ul><li>Mastering no-code AI tools and prompt engineering.</li><li>Learning Python and machine learning for finance.</li><li>Developing bespoke AI solutions for projects.</li></ul></div><div class="division-card fade-in"><div class="division-icon"><i class="fas fa-users"></i></div><h3>The Consulting Division ("The Ambassadors")</h3><p><strong>Role:</strong> The club's bridge to the real world, applying members' skills to solve actual problems.</p><ul><li>Free "AI Strategy" consulting for campus clubs/startups.</li><li>Representing Singularity in business case competitions.</li><li>Building a portfolio of client testimonials.</li></ul></div><div class="division-card fade-in"><div class="division-icon"><i class="fas fa-sitemap"></i></div><h3>The Operations Division ("The Foundation")</h3><p><strong>Role:</strong> The essential backbone that ensures the club is run professionally and continues to grow.</p><ul><li>Handling all marketing, branding, and recruitment.</li><li>Managing events, budgets, and internal affairs.</li><li>Fostering a strong alumni network.</li></ul></div></div></section>
 
-        <section id="join" class="container">
-            <h2 class="fade-in">Become Indispensable</h2>
-            <div class="split-section">
-                <div class="split-section-content fade-in">
-                    <h3>An Open Space for Builders.</h3>
-                    <p>We've discarded the old rules. We believe potential isn't measured by interviews or tests. Our culture is built on a simple foundation:</p>
-                    <ul class="join-benefits">
-                        <li><i class="fas fa-times-circle"></i> No interviews. No tests. No hierarchy.</li>
-                        <li><i class="fas fa-check-circle"></i> A truly open space where everyone is on the same footing.</li>
-                        <li><i class="fas fa-brain"></i> The only prerequisite is curiosity and an eagerness to learn.</li>
-                        <li><i class="fas fa-rocket"></i> We provide the projects and the framework; you provide the drive.</li>
-                    </ul>
-                </div>
-                <div class="form-container fade-in">
-                    <h3>Express Your Interest</h3>
-                     <p style="text-align:left; font-size:0.9rem; margin-bottom: 2rem;">Fill out the form to get notified about our next recruitment cycle and information sessions.</p>
-                     <form id="join-form">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                         <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                         <div class="form-group">
-                            <label for="interest">Why Singularity?</label>
-                            <textarea id="interest" name="interest" rows="4" required placeholder="What are you excited to learn or contribute?"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width:100%;">Submit Interest</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- ***** CONTACT SECTION UPDATED ***** -->
-        <section id="contact" class="container">
-            <h2 class="fade-in">Ready to Get Involved?</h2>
-             <div class="split-section">
-                 <div class="split-section-content fade-in">
-                     <h3>Take the Next Step.</h3>
-                     <p>Your journey into the future of finance starts here. By expressing your interest, you'll be the first to know about recruitment events, workshops, and how you can become a core member of Singularity.</p>
-                     <p>For direct partnerships or university-related inquiries, you can reach out to our leadership at <a href="mailto:contact@singularity.club" style="color:var(--accent-secondary); text-decoration:none;">contact@singularity.club</a>.</p>
-                 </div>
-                 <div class="form-container fade-in">
-                     <h3>Express Your Interest</h3>
-                     <p style="text-align:left; font-size:0.9rem; margin-bottom: 2rem;">Join our mailing list to stay ahead of the curve.</p>
-                     <!-- This is now a copy of the join form -->
-                     <form id="contact-interest-form">
-                         <div class="form-group"><label for="contact-name">Full Name</label><input type="text" id="contact-name" name="name" required></div>
-                         <div class="form-group"><label for="contact-email">Email Address</label><input type="email" id="contact-email" name="email" required></div>
-                         <div class="form-group"><label for="contact-interest">Why Singularity?</label><textarea id="contact-interest" name="interest" rows="4" required placeholder="What are you excited to learn or contribute?"></textarea></div>
-                         <button type="submit" class="btn btn-primary" style="width:100%;">Submit Interest</button>
-                    </form>
-                 </div>
-            </div>
-        </section>
+        <section id="join" class="container"><h2 class="fade-in">Become Indispensable</h2><div class="split-section"><div class="split-section-content fade-in"><h3>An Open Space for Builders.</h3><p>We've discarded the old rules. We believe potential isn't measured by interviews or tests. Our culture is built on a simple foundation:</p><ul class="join-benefits"><li><i class="fas fa-times-circle"></i> No interviews. No tests. No hierarchy.</li><li><i class="fas fa-check-circle"></i> A truly open space where everyone is on the same footing.</li><li><i class="fas fa-brain"></i> The only prerequisite is curiosity and an eagerness to learn.</li><li><i class="fas fa-rocket"></i> We provide the projects and the framework; you provide the drive.</li></ul></div><div class="form-container fade-in"><h3>Express Your Interest</h3><p style="text-align:left; font-size:0.9rem; margin-bottom: 2rem;">Fill out the form to get notified about our next recruitment cycle and information sessions.</p><form id="join-form"><div class="form-group"><label for="name">Full Name</label><input type="text" id="name" name="name" required></div><div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" required></div><div class="form-group"><label for="interest">Why Singularity?</label><textarea id="interest" name="interest" rows="4" required placeholder="What are you excited to learn or contribute?"></textarea></div><button type="submit" class="btn btn-primary" style="width:100%;">Submit Interest</button></form></div></div></section>
+        
+        <section id="contact" class="container"><h2 class="fade-in">Ready to Get Involved?</h2><div class="split-section"><div class="split-section-content fade-in"><h3>Take the Next Step.</h3><p>Your journey into the future of finance starts here. By expressing your interest, you'll be the first to know about recruitment events, workshops, and how you can become a core member of Singularity.</p><p>For direct partnerships or university-related inquiries, you can reach out to our leadership at <a href="mailto:contact@singularity.club" style="color:var(--accent-secondary); text-decoration:none;">contact@singularity.club</a>.</p></div><div class="form-container fade-in"><h3>Express Your Interest</h3><p style="text-align:left; font-size:0.9rem; margin-bottom: 2rem;">Join our mailing list to stay ahead of the curve.</p><form id="contact-interest-form"><div class="form-group"><label for="contact-name">Full Name</label><input type="text" id="contact-name" name="name" required></div><div class="form-group"><label for="contact-email">Email Address</label><input type="email" id="contact-email" name="email" required></div><div class="form-group"><label for="contact-interest">Why Singularity?</label><textarea id="contact-interest" name="interest" rows="4" required placeholder="What are you excited to learn or contribute?"></textarea></div><button type="submit" class="btn btn-primary" style="width:100%;">Submit Interest</button></form></div></div></section>
     </main>
     
-    <footer>
-       <div class="footer-content container">
-          <div class="social-links">
-             <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
-             <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-          </div>
-          <p>© 2025 Singularity. All Rights Reserved.</p>
-       </div>
-    </footer>
-
+    <footer><div class="footer-content container"><div class="social-links"><a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a><a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a></div><p>© 2025 Singularity. All Rights Reserved.</p></div></footer>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // Mobile Navigation
+        // HERO SECTION ON-LOAD ANIMATIONS
+        const heroHeading = document.getElementById('hero-heading');
+        const animatedItems = document.querySelectorAll('.hero .animated-item');
+        const startHeroAnimations = () => {
+            heroHeading.classList.add('typing-effect');
+            
+            // This event listener ensures the blinking cursor animation stops after typing is done
+            heroHeading.addEventListener('animationend', (e) => {
+                if (e.animationName === 'typing') {
+                    heroHeading.style.borderRight = 'none'; // Makes the cursor permanently disappear
+                }
+            }, { once: true });
+            
+            // Trigger the fade-in for tagline and buttons
+            animatedItems.forEach(item => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            });
+        };
+        setTimeout(startHeroAnimations, 500); // Small delay to ensure page is ready
+
+        // ---- OTHER SITE-WIDE LOGIC ----
         const hamburger = document.querySelector('.hamburger');
         const navLinks = document.querySelector('.nav-links');
-        hamburger.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        });
-        document.querySelectorAll('.nav-links li a').forEach(link => {
-            link.addEventListener('click', () => {
-                 navLinks.classList.remove('active');
-                 hamburger.classList.remove('active');
-            });
-        });
-
-        // Header Scroll Effect
+        hamburger.addEventListener('click', () => { navLinks.classList.toggle('active'); hamburger.classList.toggle('active'); });
+        document.querySelectorAll('.nav-links li a').forEach(link => link.addEventListener('click', () => { navLinks.classList.remove('active'); hamburger.classList.remove('active'); }));
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => (window.scrollY > 50) ? header.classList.add('scrolled') : header.classList.remove('scrolled'));
         
-        // Active Link on Scroll
         const sections = document.querySelectorAll('section[id]');
         const navLi = document.querySelectorAll('.nav-links a');
         window.addEventListener('scroll', () => {
             let current = '';
-            sections.forEach(section => {
-                if (pageYOffset >= section.offsetTop - header.offsetHeight) {
-                    current = section.getAttribute('id');
-                }
-            });
-            navLi.forEach(a => {
-                a.classList.remove('active');
-                if (a.getAttribute('href').substring(1) === current) {
-                    a.classList.add('active');
-                }
-            });
+            sections.forEach(section => { if (pageYOffset >= section.offsetTop - header.offsetHeight) { current = section.getAttribute('id'); } });
+            navLi.forEach(a => { a.classList.remove('active'); if (a.getAttribute('href').substring(1) === current) { a.classList.add('active'); } });
         });
-
-        // Fade-In on Scroll
+        
         const faders = document.querySelectorAll('.fade-in');
-        const appearOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
-        const appearOnScroll = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, appearOptions);
+        const appearOnScroll = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }); }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
         faders.forEach(fader => appearOnScroll.observe(fader));
-
-
-        // ***** UPGRADED PARTICLE.JS BACKGROUND *****
+        
         const canvas = document.getElementById('particle-bg');
         if (canvas) {
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
             let particlesArray;
-
-            // --- Mouse interactivity setup ---
-            const mouse = {
-                x: null,
-                y: null,
-                radius: 120 // Radius of interaction
-            };
-            window.addEventListener('mousemove', event => {
-                mouse.x = event.x;
-                mouse.y = event.y;
-            });
-
-            class Particle {
-                constructor(x, y, dX, dY, size, color) { this.x=x; this.y=y; this.directionX=dX; this.directionY=dY; this.size=size; this.color=color; }
-                draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle=this.color; ctx.fill(); }
-                update() {
-                    if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
-                    if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
-                    this.x += this.directionX; this.y += this.directionY; this.draw();
-                }
-            }
-
-            function initParticles() {
-                particlesArray = [];
-                let num = (canvas.height * canvas.width) / 8000; // Increased density
-                for (let i = 0; i < num; i++) {
-                    let size = (Math.random() * 2) + 1.5;
-                    particlesArray.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height, (Math.random() * 0.5) - 0.25, (Math.random() * 0.5) - 0.25, size, 'rgba(138, 43, 226, 0.6)')); // Brighter violet particles
-                }
-            }
-            
-            function animateParticles() {
-                requestAnimationFrame(animateParticles);
-                ctx.clearRect(0, 0, innerWidth, innerHeight);
-                particlesArray.forEach(p => p.update());
-                connectParticles();
-            }
-
-            function connectParticles() {
-                for (let a = 0; a < particlesArray.length; a++) {
-                    // --- New: Connect particles to mouse ---
-                    let distToMouse = Math.hypot(mouse.x - particlesArray[a].x, mouse.y - particlesArray[a].y);
-                    if (distToMouse < mouse.radius) {
-                        ctx.strokeStyle = `rgba(0, 191, 255, ${1 - distToMouse/mouse.radius})`; // Blue lines to mouse
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(mouse.x, mouse.y);
-                        ctx.lineTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.stroke();
-                    }
-
-                    // Connect particles to each other
-                    for (let b = a; b < particlesArray.length; b++) {
-                        let dist = Math.hypot(particlesArray[a].x - particlesArray[b].x, particlesArray[a].y - particlesArray[b].y);
-                        if (dist < 130) {
-                            ctx.strokeStyle = `rgba(138, 43, 226, ${1 - dist / 130})`; // Violet lines between particles
-                            ctx.lineWidth = 0.6;
-                            ctx.beginPath();
-                            ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                            ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                            ctx.stroke();
-                        }
-                    }
-                }
-            }
-
+            const mouse = { x: null, y: null, radius: 120 };
+            window.addEventListener('mousemove', event => { mouse.x = event.x; mouse.y = event.y; });
+            class Particle { constructor(x, y, dX, dY, size, color) { this.x=x; this.y=y; this.directionX=dX; this.directionY=dY; this.size=size; this.color=color; } draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle=this.color; ctx.fill(); } update() { if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX; if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY; this.x += this.directionX; this.y += this.directionY; this.draw(); } }
+            function initParticles() { particlesArray = []; let num = (canvas.height * canvas.width) / 8000; for (let i = 0; i < num; i++) { let size = (Math.random() * 2) + 1.5; particlesArray.push(new Particle(Math.random() * canvas.width, Math.random() * canvas.height, (Math.random() * 0.5) - 0.25, (Math.random() * 0.5) - 0.25, size, 'rgba(138, 43, 226, 0.6)')); } }
+            function animateParticles() { requestAnimationFrame(animateParticles); ctx.clearRect(0, 0, innerWidth, innerHeight); particlesArray.forEach(p => p.update()); connectParticles(); }
+            function connectParticles() { for (let a = 0; a < particlesArray.length; a++) { let distToMouse = Math.hypot(mouse.x - particlesArray[a].x, mouse.y - particlesArray[a].y); if (distToMouse < mouse.radius) { ctx.strokeStyle = `rgba(0, 191, 255, ${1 - distToMouse/mouse.radius})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(mouse.x, mouse.y); ctx.lineTo(particlesArray[a].x, particlesArray[a].y); ctx.stroke(); } for (let b = a; b < particlesArray.length; b++) { let dist = Math.hypot(particlesArray[a].x - particlesArray[b].x, particlesArray[a].y - particlesArray[b].y); if (dist < 130) { ctx.strokeStyle = `rgba(138, 43, 226, ${1 - dist / 130})`; ctx.lineWidth = 0.6; ctx.beginPath(); ctx.moveTo(particlesArray[a].x, particlesArray[a].y); ctx.lineTo(particlesArray[b].x, particlesArray[b].y); ctx.stroke(); } } } }
             window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initParticles(); });
             initParticles();
             animateParticles();
         }
-
-        // Form Submission Handler
+        
         function handleFormSubmit(formId, successMessage) {
             const form = document.getElementById(formId);
             if (!form) return;
-            form.addEventListener('submit', e => {
-                e.preventDefault();
-                alert(successMessage);
-                form.reset();
-            });
+            form.addEventListener('submit', e => { e.preventDefault(); alert(successMessage); form.reset(); });
         }
         handleFormSubmit('join-form', 'Thank you! Your interest has been recorded. We will be in touch.');
         handleFormSubmit('contact-interest-form', 'Thank you! Your interest has been recorded. We will be in touch.');
